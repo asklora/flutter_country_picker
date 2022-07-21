@@ -29,8 +29,10 @@ class MyApp extends StatelessWidget {
         const Locale('uk'),
         const Locale('hr'),
         const Locale('tr'),
-        const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans'), // Generic Simplified Chinese 'zh_Hans'
-        const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'), // Generic traditional Chinese 'zh_Hant'
+        const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans'),
+        // Generic Simplified Chinese 'zh_Hans'
+        const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
+        // Generic traditional Chinese 'zh_Hant'
       ],
       localizationsDelegates: [
         CountryLocalizations.delegate,
@@ -62,6 +64,8 @@ class HomePage extends StatelessWidget {
               showPhoneCode: true,
               onSelect: (Country country) {
                 print('Select country: ${country.displayName}');
+                print('Select country: ${country.countryCode}');
+                print('Select country: ${country.countryCodeIso3}');
               },
               // Optional. Sets the theme for the country list picker.
               countryListTheme: CountryListThemeData(

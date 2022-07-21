@@ -10,6 +10,7 @@ class Country {
   static Country worldWide = Country(
     phoneCode: '',
     countryCode: 'WW',
+    countryCodeIso3: 'WW',
     e164Sc: -1,
     geographic: false,
     level: -1,
@@ -28,6 +29,7 @@ class Country {
   final int e164Sc;
   final bool geographic;
   final int level;
+  final String countryCodeIso3;
 
   ///The country name in English
   final String name;
@@ -63,6 +65,7 @@ class Country {
   Country({
     required this.phoneCode,
     required this.countryCode,
+    required this.countryCodeIso3,
     required this.e164Sc,
     required this.geographic,
     required this.level,
@@ -78,6 +81,7 @@ class Country {
   Country.from({required Map<String, dynamic> json})
       : phoneCode = json['e164_cc'],
         countryCode = json['iso2_cc'],
+        countryCodeIso3 = json['iso3_cc'],
         e164Sc = json['e164_sc'],
         geographic = json['geographic'],
         level = json['level'],
@@ -108,6 +112,7 @@ class Country {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['e164_cc'] = phoneCode;
     data['iso2_cc'] = countryCode;
+    data['iso3_cc'] = countryCodeIso3;
     data['e164_sc'] = e164Sc;
     data['geographic'] = geographic;
     data['level'] = level;
@@ -128,6 +133,7 @@ class Country {
     return phoneCode.startsWith(_query.toLowerCase()) ||
         name.toLowerCase().startsWith(_query.toLowerCase()) ||
         countryCode.toLowerCase().startsWith(_query.toLowerCase()) ||
+        countryCodeIso3.toLowerCase().startsWith(_query.toLowerCase()) ||
         (localizations
                 ?.countryName(countryCode: countryCode)
                 ?.toLowerCase()
@@ -138,7 +144,8 @@ class Country {
   bool get iswWorldWide => countryCode == Country.worldWide.countryCode;
 
   @override
-  String toString() => 'Country(countryCode: $countryCode, name: $name)';
+  String toString() =>
+      'Country(countryCode: $countryCode, countryCodeIso3 $countryCodeIso3 name: $name)';
 
   @override
   bool operator ==(Object other) {
@@ -146,11 +153,15 @@ class Country {
       return other.countryCode == countryCode;
     }
 
+    if (other is Country) {
+      return other.countryCodeIso3 == countryCodeIso3;
+    }
+
     return super == other;
   }
 
   @override
-  int get hashCode => countryCode.hashCode;
+  int get hashCode => countryCode.hashCode + countryCodeIso3.hashCode;
 
   /// provides country flag as emoji.
   /// Can be displayed using
